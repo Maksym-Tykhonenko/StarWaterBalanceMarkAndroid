@@ -56,40 +56,6 @@ export default function MapScreen() {
     longitudeDelta: 8,
   });
 
-  const handleDirections = spring => {
-    const {latitude, longitude} = spring.coordinate;
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
-    Linking.openURL(url);
-  };
-
-  const handleDownloadImage = image => {
-    Alert.alert('Download', 'Downloading image...');
-  };
-
-  const handleMore = spring => {
-    const message = `${spring.name}\n${spring.city}\nCoordinates: ${spring.coordinate.latitude}, ${spring.coordinate.longitude}`;
-    Share.share({message});
-  };
-
-  const handleCloseCard = () => {
-    setSelectedSpring(null);
-  };
-
-  const handleZoomIn = () => {
-    setRegion(prev => ({
-      ...prev,
-      latitudeDelta: prev.latitudeDelta * 0.8,
-      longitudeDelta: prev.longitudeDelta * 0.8,
-    }));
-  };
-
-  const handleZoomOut = () => {
-    setRegion(prev => ({
-      ...prev,
-      latitudeDelta: prev.latitudeDelta / 0.8,
-      longitudeDelta: prev.longitudeDelta / 0.8,
-    }));
-  };
   return (
     <ImageBackground
       source={require('../assets/bg.png')}
@@ -103,7 +69,7 @@ export default function MapScreen() {
           <MapView
             provider={PROVIDER_GOOGLE}
             style={styles.map}
-            region={region}
+            //region={region}
             onRegionChange={setRegion}>
             {springs.map((spring, index) => (
               <Marker
@@ -120,37 +86,6 @@ export default function MapScreen() {
             ))}
           </MapView>
         </View>
-        {selectedSpring && (
-          <View style={styles.bottomCard}>
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={handleCloseCard}>
-              <Text style={styles.closeButtonText}>×</Text>
-            </TouchableOpacity>
-            <Text style={styles.bottomTitle}>{selectedSpring.name}</Text>
-            <Text style={styles.bottomSubtitle}>
-              City: {selectedSpring.city}
-            </Text>
-            <View style={styles.buttonRow}>
-              <TouchableOpacity
-                style={styles.actionButton}
-                onPress={() => handleDirections(selectedSpring)}>
-                <Text style={styles.actionButtonText}>Directions</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.actionButton}
-                onPress={() => handleDownloadImage(selectedSpring.image)}>
-                <Text style={styles.actionButtonText}>Download</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.actionButton}
-                onPress={() => handleMore(selectedSpring)}>
-                <Text style={styles.actionButtonText}>More</Text>
-              </TouchableOpacity>
-            </View>
-            <Image source={selectedSpring.image} style={styles.bottomImage} />
-          </View>
-        )}
       </SafeAreaView>
     </ImageBackground>
   );
