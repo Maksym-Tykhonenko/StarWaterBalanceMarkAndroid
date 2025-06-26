@@ -9,7 +9,7 @@ const Loader = ({onEnd}) => {
     // Запускаем анимацию на 5 секунд (5000 ms)
     Animated.timing(progressAnim, {
       toValue: 1,
-      duration: 5000,
+      duration: 8000,
       useNativeDriver: false, // для изменения стилей ширины лучше false
     }).start(() => {
       // По завершении анимации вызываем onEnd, если он передан
